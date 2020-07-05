@@ -1,18 +1,18 @@
 import React, { Component } from "react";
 import axios from "axios";
+import { connect } from "react-redux";
+import {getOrdersFromApi, DeleteORderfromApi} from "../Action/action";
 class Order extends Component {
   state = {
     order: [],
     q: 1,
   };
-  /****************************************************Get axios order list ******************************** */
   componentDidMount() {
-    axios
-      .get("http://localhost:8000/order")
-      .then((res) => this.setState({ order: res.data }));
+   
+    this.props.getOrder();
   }
   /********************************fonction**********************/
-
+/*
   IncrementQuantityAndPrice = (el) => {
     el.quantity++;
     el.price_meal = el.UnitPrice * el.quantity;
@@ -20,7 +20,7 @@ class Order extends Component {
     axios.patch(`http://localhost:8000/order/${el.id}`, el);
     window.location.reload();
   };
-  /*************************DECREMENT ************ */
+  /*************************DECREMENT ************ 
   DecreaseQuantityAndPrice = (el) => {
     el.quantity--;
     el.price_meal = el.UnitPrice * el.quantity;
@@ -28,12 +28,14 @@ class Order extends Component {
     axios.patch(`http://localhost:8000/order/${el.id}`, el);
     window.location.reload();
   };
+  ***/
   render() {
     return (
       <div className="App">
+        <h1>EKhdemi khanoooorgooood </h1>
         <div className="OrderList">
           <ul className="order">
-            {this.state.order.map((el) => (
+            {this.props.Orders.map((el) => (
               <li className="mealOrderItem" key={el.id}>
                 <div className="pictureOrder">
                   <img
@@ -59,7 +61,7 @@ class Order extends Component {
                   </button>
                  
                 </div>
-                <button  class="ui icon button" onClick={() => this.IncrementQuantityAndPrice(el)}>
+                <button  class="ui icon button" onClick={() => this.props.deleteOrder(el.id)}>
                 <i aria-hidden="true" class="delete icon"></i>
                   </button>
               </li>
@@ -71,4 +73,15 @@ class Order extends Component {
   }
 }
 
-export default Order;
+const mapStateToProps = (state) => ({
+
+  Orders: state.orders,
+
+});
+const mapDispatchToProps = (dispatch) => ({
+  getOrder: () => dispatch(getOrdersFromApi()),
+  deleteOrder: (el) => dispatch(DeleteORderfromApi(el)),
+ 
+ 
+});
+export default connect(mapStateToProps, mapDispatchToProps)(Order);

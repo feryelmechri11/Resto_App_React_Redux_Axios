@@ -1,36 +1,11 @@
 import React, { Component } from "react";
 import axios from "axios";
+import { connect } from "react-redux";
+import { postOrderInApi,getAllallOrders,getOrdersFromApi,DeleteORderfromApi} from "../Action/action";
 class ClientMeal extends Component {
-  state = {
-    order: [],
-    mealName: "",
-    mealDescription: "",
-    mealPrice: "",
-    mealQuantity: "",
-    mealPicture: "",
-  };
+ 
 
-  /*******************************************Add Axios meal ********************************************* */
-
-  AddOrder = (el) => {
-    let name_meal = el.name_meal;
-    let descrip_meal = el.descrip_meal;
-    let price_meal = el.price_meal;
-    let picture = el.picture;
-    let quantity = 1;
-    let UnitPrice = el.price_meal;
-    console.log(UnitPrice);
-    axios.post("http://localhost:8000/order", {
-      name_meal,
-      descrip_meal,
-      price_meal,
-      quantity,
-      picture,
-      UnitPrice,
-    });
-
-    window.location.reload();
-  };
+ 
   render() {
     return (
       <div className="App">
@@ -50,7 +25,15 @@ class ClientMeal extends Component {
 
               <h4 className="price">  prix  {el.price_meal} DT  </h4>
                
-                <button  className="btn btn-secondary btn-sm" onClick={() => this.AddOrder(el)}> <i aria-hidden="true" class="shop icon"></i>commander </button>
+                <button  className="btn btn-secondary btn-sm" onClick={() => this.props.addOrder({
+                    "name_meal": el.name_meal,
+                    "descrip_meal": el.descrip_meal,
+                    "price_meal": el.price_meal,
+                    "picture": el.picture,
+                    "quantity":1,
+                    "UnitPrice":el.price_meal
+                  
+                  })}> <i aria-hidden="true" class="shop icon"></i>commander </button>
                 </div>
               </li>
             ))}
@@ -60,5 +43,18 @@ class ClientMeal extends Component {
     );
   }
 }
+ 
+const mapStateToProps = (state) => ({
 
-export default ClientMeal;
+  Meals: state.menuReducerkey,
+
+});
+const mapDispatchToProps = (dispatch) => ({
+
+  addOrder: (el) => dispatch(postOrderInApi(el)),
+  
+ 
+ 
+});
+export default connect(mapStateToProps, mapDispatchToProps)(ClientMeal);
+

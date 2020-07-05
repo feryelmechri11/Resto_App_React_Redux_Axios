@@ -90,18 +90,7 @@ class App extends Component {
           />
           <Meal
             Meals={this.state.meals}
-            PictureMeal={this.state.mealPicture}
-            getName={this.GetMealName}
-            getDescription={this.GetMealdescription}
-            getPrice={this.GetMealPrice}
-            getPicture={this.GetMealPicture}
-            addMeal={this.AddMeal}
-            update={this.update}
-            deleteMeal={this.DeleteMeal}
-            editName={this.GetModificationName}
-            editDescription={this.GetModificationDescription}
-            editPrice={this.GetModificationPrice}
-            editPicture={this.GetModificationPicture}
+           
           />
           <ClientMeal Meals={this.state.meals} />
           <Order />
