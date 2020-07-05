@@ -1,14 +1,35 @@
 import React from "react";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
-
+import { connect } from "react-redux";
+import { UpdateInApi} from "../Action/action";
 class EditMeal extends React.Component {
   state = {
     modal: false,
+    id:this.props.el.id,
+    NewmealName: this.props.el.name_meal,
+    NewmealDescription: this.props.el.mealDescription,
+    NewmealPrice:  this.props.el.mealPrice,
+    NewmealPicture: this.props.el.mealPicture,
   };
-
+  
   toggle = () => {
     this.setState({ modal: !this.state.modal });
   };
+  /******************* handle change edit******************************* */
+  GetModificationName = (e) => {
+    this.setState({ NewmealName: e });
+  };
+  GetModificationDescription = (e) => {
+    this.setState({ NewmealDescription: e});
+  };
+  GetModificationPrice = (e) => {
+    this.setState({ NewmealPrice: e});
+  };
+  GetModificationPicture = (e) => {
+    this.setState({ NewmealPicture: e });
+  };
+  /****************************************************** */
+
   render() {
     return (
       <div>
@@ -18,17 +39,19 @@ class EditMeal extends React.Component {
           <ModalBody>
             <input
               type="text"
-              onChange={this.props.editName}
+              onChange={(e) => this.GetModificationName(e.target.value)}
               defaultValue={this.props.el.name_meal}
             />
             <input
               type="text"
-              onChange={this.props.editDescription}
+              
+              onChange={(e) => this.GetModificationDescription(e.target.value)}
               defaultValue={this.props.el.descrip_meal}
             />
             <input
               type="text"
-              onChange={this.props.editPrice}
+              
+              onChange={(e) => this.GetModificationPrice(e.target.value)}
               defaultValue={this.props.el.price_meal}
             />
              <input
@@ -37,14 +60,21 @@ class EditMeal extends React.Component {
                 alt="meal picture "
                 placeholder="Picture of the meal "
                 defaultValue={this.props.el.picture}
-                onChange={this.props.editPicture}
+                onChange={(e) => this.GetModificationPicture(e.target.value)}
+               
 
               />
           </ModalBody>
           <ModalFooter>
             <Button
               color="primary"
-              onClick={() => this.props.update(this.props.el.id)}
+              onClick={() => this.props.editMeal({
+                "id":this.state.id,
+                "name_meal": this.state.NewmealName,
+                "descrip_meal": this.state.NewmealDescription,
+                "price_meal": this.state.NewmealPrice,
+                "picture": this.state.NewmealPicture,
+              })}
             >
               Save change 
             </Button>{" "}
@@ -57,4 +87,8 @@ class EditMeal extends React.Component {
     );
   }
 }
-export default EditMeal ;
+const mapDispatchToProps = (dispatch) => ({
+  editMeal: (el) => dispatch(UpdateInApi(el)),
+  
+});
+export default connect(null, mapDispatchToProps)(EditMeal);

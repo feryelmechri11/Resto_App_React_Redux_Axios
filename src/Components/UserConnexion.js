@@ -13,7 +13,7 @@ class UserConnexion extends Component {
     return (
       <div>
         <div className="Add_User_Button">
-          <Button className="Add_Meal_Btn" color="danger" onClick={this.toggle}>
+          <Button className="Add_User_Btn" color="danger" onClick={this.toggle}>
             {" "}
             <i aria-hidden="true" class="add square icon"></i> SIgn In {" "}
           </Button>
